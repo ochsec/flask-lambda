@@ -1,0 +1,21 @@
+provider:
+  name: aws
+  stackName: flask-app
+  runtime: python3.9
+
+plugins:
+  - serverless-wsgi
+  - serverless-python-requirements
+
+functions:
+  flask:
+    handler: wsgi_handler.handler
+    architecture: arm64
+    url: true
+    role: !Sub arn:aws:iam::${AccountId}:role/FlaskAppLambdaExecutionRole
+
+custom:
+  wsgi:
+    app: flask.app
+  pythonRequirements:
+    pythonBin: python
